@@ -59,7 +59,6 @@ def make_goal(s):
 	return puzzle
 
 if __name__ == "__main__":
-	print ("hello world !")
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument("size", type=int, help="Size of the puzzle's side. Must be >3.")
