@@ -1,0 +1,33 @@
+# This puzzle is solvable
+3
+2	0	3
+1	8	4
+7	6	5
+
+
+#	1	2	3
+#	8	0	4
+#	7	6	5
+
+#	2	0	3	1	8	4	7	6	5
+#	1	2	3	8	0	4	7	6	5
+
+#	1+1+1=3[odd]
+
+#	1	3	0
+#	8	2	4
+#	7	6	5
+
+#	0	2	3
+#	1	8	4
+#	7	6	5	..2
+
+#	1	2	3	8	0	4	7	6	5
+
+#	0	2	3	1	8	4	7	6	5
+
+#	1	2	3	0	8	4	7	6	5
+#	1	2	3	8	0	4	7	6	5
+
+#	check how many moves needed to get 0 from start_position to final_position, will call this value P
+#	the solution must have same parity as P
