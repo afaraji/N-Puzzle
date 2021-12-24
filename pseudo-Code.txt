@@ -1,0 +1,28 @@
+set opened = {initial States}
+set closed = null
+
+bool succes = False
+while (opened != null) and (succes == False):
+	state e = select_according_to_A-star_strategy_in(opened)
+	if (e == final_state):
+		succes = True
+	else:
+		opened.remove(e)
+		closed.add(e)
+		for s in Expanded(e):
+			if (s not in opened) and (s not in closed):
+				opened.add(s)
+				s.parent = e
+				s.g = e.g + C(e-->s)
+			else: # s is in 'opened' or in 'closed'
+				if (s.g + s.h > e.g + C(e-->s) + s.h):
+					s.g = e.g + C(e-->s)
+					s.parent = e
+					if (s in closed):
+						closed.remove(s)
+						opened.add(s)
+
+if (succes == True):
+	print_puzle()
+else:
+	prin('no solution found')
