@@ -16,7 +16,7 @@ def is_solvable(start_state, goal_state, size):
 		print("Error: '0' not found. incorrect puzzle format")
 		exit(6)
 	count = 0
-	for i in range(len(start_state)):
+	for i in range(size * size):
 		if (start_state[i] != goal_state[i]):
 			try:
 				index_to_swap_with = start_state.index(goal_state[i])
