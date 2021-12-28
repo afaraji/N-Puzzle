@@ -9,20 +9,34 @@ while (opened != null) and (succes == False):
 	else:
 		opened.remove(e)
 		closed.add(e)
-		for s in Expanded(e):
-			if (s not in opened) and (s not in closed):
-				opened.add(s)
-				s.parent = e
-				s.g = e.g + C(e-->s)
-			else: # s is in 'opened' or in 'closed'
-				if (s.g + s.h > e.g + C(e-->s) + s.h):
-					s.g = e.g + C(e-->s)
-					s.parent = e
-					if (s in closed):
-						closed.remove(s)
-						opened.add(s)
+		for child in Expanded(e):
+			if (child not in opened) and (child not in closed):
+				opened.add(child)
+				child.parent = e
+				child.g = e.g + cost(from e -> child)
+			else: # child is in 'opened' or in 'closed'
+				if (child.g > e.g + cost(from e -> child)):	#cost(from e -> child) = 1
+					child.g = e.g + cost(from e -> child)
+					child.parent = e
+					if (child in closed):
+						closed.remove(child)
+						opened.add(child)
 
 if (succes == True):
 	print_puzle()
 else:
 	prin('no solution found')
+
+
+#					if (old_child.level > child.level):
+#						old_child.parent = min_state
+#						old_child.cost = child.cost
+#						if (is_child_in_closed == True):
+#							closed.remove(old_child)
+#							opened.push(old_child)
+
+
+# hashing closed
+# check cornners + diagonal next one
+
+

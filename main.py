@@ -46,7 +46,8 @@ def read_input_file():
 
 if __name__ == "__main__":
 	size, arr_2D, arr_1D = read_input_file()
-	goal = generate_final_state(size)
+	#goal = generate_final_state(size)
+	goal = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]
 	if (is_solvable(arr_1D[:], goal,size)):
 		tic = time.time()
 		solve_puzzle(arr_1D, goal, size)

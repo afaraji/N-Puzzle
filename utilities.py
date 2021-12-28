@@ -7,7 +7,7 @@ def get_parity(s_index, g_index, size):
 	same_row = int(s_index / size) - int(g_index/ size)
 	same_col = (s_index % size) - (g_index % size)
 	num_of_moves = abs(same_row) + abs(same_col)
-	return num_of_moves % 2
+	return num_of_moves
 
 def is_solvable(start_state, goal_state, size):
 	try:
@@ -26,7 +26,7 @@ def is_solvable(start_state, goal_state, size):
 			swap_index(start_state, i, index_to_swap_with)
 			count += 1
 	print("num of swaps:", count)
-	if(count % 2 == parity):
+	if(count % 2 == parity % 2):
 		return True
 	return False
 
@@ -95,7 +95,7 @@ def can_move_up(i, s):
 
 def can_move_down(i, s):
 	if (i + s < s * s):
-		True
+		return True
 	return False
 
 def move_left():
