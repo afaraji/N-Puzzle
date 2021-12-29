@@ -52,7 +52,7 @@ def text_animation(string) :
 
 ############## main #################
 if __name__ == "__main__":
-	
+
 	#help usage and errors are automatically generated when there is invalid arguments
 	parser = argparse.ArgumentParser()
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 		print ("You must insert a number between 1 & 7")
 		sys.exit(1)
 
-	
+
 	search_method = args.s
 	heuristic_type = args.f
 
@@ -95,32 +95,32 @@ if __name__ == "__main__":
 
 	#----- Get search_method args ------#
 
-	if (args.filename) :
-		if (search_method == 1):
-			text_animation("\n************************ A* (defalut) **************************")
-		elif (search_method == 2):
-			text_animation("\n*********************** Greedy search **************************")
-		else :
-			text_animation("\n************************ Uniform-cost **************************")
+	# if (args.filename) :
+	# 	if (search_method == 1):
+	# 		text_animation("\n************************ A* (defalut) **************************")
+	# 	elif (search_method == 2):
+	# 		text_animation("\n*********************** Greedy search **************************")
+	# 	else :
+	# 		text_animation("\n************************ Uniform-cost **************************")
 
 	#----- Get heuristic_type args ------#
 
-	if (args.filename) :
-		if (heuristic_type == 1):
-			text_animation("*************** Heuristic type : MY_HEURISTIC  *****************")
-		elif (heuristic_type == 2):
-			text_animation("****************** Heuristic type : HAMMING  *******************")
-		elif (heuristic_type == 3):
-			text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
-		elif (heuristic_type == 4):
-			text_animation("****************** Heuristic type : RANDOM1  *******************")
-		elif (heuristic_type == 5):
-			text_animation("***************** Heuristic type : RANDOM12  *******************")
-		elif (heuristic_type == 6):
-			text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
-		elif (heuristic_type == 7):
-			text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
-		
+	# if (args.filename) :
+	# 	if	 (heuristic_type == 1):
+	# 		text_animation("*************** Heuristic type : MY_HEURISTIC  *****************")
+	# 	elif (heuristic_type == 2):
+	# 		text_animation("****************** Heuristic type : HAMMING  *******************")
+	# 	elif (heuristic_type == 3):
+	# 		text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
+	# 	elif (heuristic_type == 4):
+	# 		text_animation("****************** Heuristic type : RANDOM1  *******************")
+	# 	elif (heuristic_type == 5):
+	# 		text_animation("***************** Heuristic type : RANDOM12  *******************")
+	# 	elif (heuristic_type == 6):
+	# 		text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
+	# 	elif (heuristic_type == 7):
+	# 		text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
+
 	#----- Open and read filename / Usage ------#
 	if args.filename:
 		size, arr_2D, arr_1D = read_input_file(args.filename)
@@ -129,13 +129,17 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 	goal = generate_final_state(size)
+	#goal = [1,2,3,4,5,6,7,8,0]# custom goal
 	if (is_solvable(arr_1D[:], goal,size)):
 		tic = time.time()
 		solve_puzzle(arr_1D, goal, size, search_method, heuristic_type)
 		elapsed = round(time.time() - tic, 5)
-		print("puzzle solved in:", str(elapsed * 1000), "ms")
+		if(elapsed < 1):
+			elapsed *= 1000#convert to ms
+			print("puzzle solved in:", round(elapsed, 5), "ms")
+		else:
+			elapsed = elapsed % 60
+			minutes = int(elapsed / 60)
+			print("puzzle solved in:", str(minutes) + "min and" if minutes > 1 else "", elapsed, "seconds")
 	else: print("The puzzle is unsolvable.")
 
-
-
-# heapq

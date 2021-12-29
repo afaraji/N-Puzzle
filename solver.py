@@ -1,5 +1,4 @@
 from heapq import heappush, heappop
-import sys
 from utilities import *
 
 ################   classes   #####################
@@ -24,7 +23,6 @@ class priority_queue:
 
 	# Inserts a new key 'k'
 	def push(self, k):
-		print("++pushing:[" + k.string + "] | with cost:", k.cost, k.level)
 		heappush(self.heap, k)
 
 	# Method to remove minimum element
@@ -39,10 +37,14 @@ class priority_queue:
 		else:
 			return False
 
-def g(level): # the cost from starting pos to n
+################ cost functions #####################
+
+# the cost from starting pos to n (depth cost)
+def g(level):
 	return level + 1
 
-def h(arr, goal, size, heuristic_type = 0) -> int: # heuristic: estimate the cost from the n pos to the tatget
+# heuristic: estimate the cost from the n pos to the tatget
+def h(arr, goal, size, heuristic_type = 0) -> int:
 	if heuristic_type == 1:
 		return my_heuristic(arr, goal, size)
 	if heuristic_type == 2:
@@ -51,12 +53,13 @@ def h(arr, goal, size, heuristic_type = 0) -> int: # heuristic: estimate the cos
 		return manhattan_hamming(arr, goal, size)
 	if heuristic_type == 4:
 		return random_web(arr, goal, size)
-	if heuristic_type == 5:#fastest for now
-		return website_algo(arr, goal, size)
+	if heuristic_type == 5:
+		return number_of_swaps(arr, goal, size)
 	if heuristic_type == 6:
 		return linear_conflicts(arr, goal, size)
 	return manhattan_distance(arr, goal, size)
 
+################   heuristics   #####################
 
 def my_heuristic(arr, goal, s) -> int:
 	count = 0
@@ -76,7 +79,7 @@ def hamming(arr, goal, s) -> int:
 			count += 1
 	return count
 
-def manhattan_distance(array, goal, s) -> int:#not manhatn distance
+def number_of_swaps(array, goal, s) -> int:
 	arr = array[:]
 	count = 0
 	for i in range(s * s):
@@ -86,28 +89,49 @@ def manhattan_distance(array, goal, s) -> int:#not manhatn distance
 			count += 1
 	return count
 
-def random_web(array, goal, s) -> int:#
+def random_web(array, goal, s) -> int:# impliment new method here
 	return hamming(array, goal, s) + my_heuristic(array, goal, s)
 
-def website_algo(array, goal, s) -> int:#manhatn distance
+#manhatn distance
+def manhattan_distance(array, goal, s) -> int:
 	count = 0
 	for i in range(s * s):
-		if (array[i] != goal[i]):
+		if (array[i] != 0 and array[i] != goal[i]):
 			index = array.index(goal[i])
 			count += get_parity(i, index, s)
 	return count
 
-def linear_conflicts(array, goal, size):#need to find linear conflict algo. use proper parser for input in line
-	linear_conf = 0
-	return linear_conf * 2 + manhattan_distance(array, goal, size)
+def linear_conflicts(array, goal, size):
+	def get_row_col(arr, s):# % col, / row
+		row = [-1 for i in range(s * s)]
+		col = [-1 for i in range(s * s)]
+		for i in range (s * s):
+			element = arr[i]
+			row[element] = int(i / s)
+			col[element] = i % s
+		return row, col
+
+	def linear_c(arr, goal, s):
+		g_row , g_col = get_row_col(goal, s)
+		row, col = get_row_col(arr, s)
+		count = 0
+		for i in range(1, s * s):
+			if (g_row[i] == row[i]):
+				r = g_row[i]
+				for j in range(i + 1, s * s):
+					if (row[j] == r and row[j] == g_row[j]):
+						if (g_col[i] < g_col[j] and col[i] > col[j]):
+							count += 1
+		return count * 2
+
+	return linear_c(array, goal, size) + manhattan_distance(array, goal, size)
 
 def f(level, arr, goal, size, s_method, heuristic_type = 0) -> int:
-	if (s_method == 1) :
-		return g(level) + h(arr, goal, size, heuristic_type)
 	if (s_method == 2) :
 		return h(arr, goal, size, heuristic_type)
 	if (s_method == 3) :
 		return g(level)
+	return g(level) + h(arr, goal, size, heuristic_type)
 
 ################   print   #####################
 def prRed(skk):
@@ -127,14 +151,15 @@ def solve_puzzle(start, goal, size, search_method, heuristic_type):
 	print("","solving puzzle")
 	print_puzle(start, size)
 	print("\t  ||\n\t  ||\n\t  \\/")
-	A_star(start, goal, size, heuristic_type, search_method)
+	search(start, goal, size, heuristic_type, search_method)
 	#print_puzle(goal, size)
 	return False
 
 def array_to_str(arr):
 	return ''.join(map(str, arr))
 
-def get_childs(state, size, goal, heuristic_type, s_method):#array, string, parent, level, cost
+def get_childs(state, size, goal, heuristic_type, s_method):
+	#Cstate: array, string, parent, level, cost
 	lst = []
 	index_0 = state.array.index(0)
 	if (can_move_up(index_0,size)):
@@ -161,10 +186,9 @@ def get_childs(state, size, goal, heuristic_type, s_method):#array, string, pare
 		cost = f(state.level, arr, goal, size, s_method, heuristic_type)
 		new_state = C_State(arr, array_to_str(arr),state, state.level + 1, cost)
 		lst.append(new_state)
-	#print("get_child: found", len(lst), "childs")
 	return (lst)
 
-def is_value_in_list(value, lst, lol):
+def is_value_in_list(value, lst):
 	for x in lst:
 		if(x.string == value.string):
 			return x, True
@@ -182,7 +206,7 @@ def print_path(state, size):
 		print_puzle(x, size, False)
 		print("")
 
-def A_star(start, goal, size, heuristic_type, search_method):
+def search(start, goal, size, heuristic_type, search_method):
 	goal_str = array_to_str(goal)
 	opened = priority_queue()
 	closed = []
@@ -193,7 +217,6 @@ def A_star(start, goal, size, heuristic_type, search_method):
 	while (opened.empty() == False) and (success == False):
 		iterations += 1
 		min_state = opened.pop()
-		print("--poped:[" + min_state.string + "] with cost:", min_state.cost, min_state.level)
 		if (min_state.string == goal_str):
 			success = True
 			print_path(min_state, size)
@@ -206,8 +229,8 @@ def A_star(start, goal, size, heuristic_type, search_method):
 			closed.append(min_state)
 			childs = get_childs(min_state, size, goal, heuristic_type, search_method)
 			for child in childs:
-				child_in_closed, closed_bool = is_value_in_list(child, closed, "closed")
-				child_in_opened, opened_bool = is_value_in_list(child, opened.heap, "heap")
+				child_in_closed, closed_bool = is_value_in_list(child, closed)
+				child_in_opened, opened_bool = is_value_in_list(child, opened.heap)
 				#if (child not in opened.heap) and (child_in_closed == None):
 				if (opened_bool == False) and (closed_bool == False):
 					opened.push(child)
@@ -219,9 +242,6 @@ def A_star(start, goal, size, heuristic_type, search_method):
 						child_in_opened.parent = min_state
 						child_in_opened.level = child.level
 						child_in_opened.cost = child.cost
-
-
-
 
 	if (success == True):
 		print("---*-*-*-*-*-*-*-* puzzle solved *-*-*-*-*-*-*-*---")
