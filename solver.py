@@ -1,4 +1,5 @@
 from heapq import heappush, heappop
+import sys
 from utilities import *
 
 ################   classes   #####################
@@ -100,8 +101,13 @@ def linear_conflicts(array, goal, size):#need to find linear conflict algo. use 
 	linear_conf = 0
 	return linear_conf * 2 + manhattan_distance(array, goal, size)
 
-def f(level, arr, goal, size, heuristic_type = 0) -> int:
-	return g(level) + h(arr, goal, size, heuristic_type)
+def f(level, arr, goal, size, s_method, heuristic_type = 0) -> int:
+	if (s_method == 1) :
+		return g(level) + h(arr, goal, size, heuristic_type)
+	if (s_method == 2) :
+		return h(arr, goal, size, heuristic_type)
+	if (s_method == 3) :
+		return g(level)
 
 ################   print   #####################
 def prRed(skk):
@@ -117,42 +123,42 @@ def print_puzle(arr, size, Debug=False):
 
 ################   solve   #####################
 
-def solve_puzzle(start, goal, size):
+def solve_puzzle(start, goal, size, search_method, heuristic_type):
 	print("","solving puzzle")
 	print_puzle(start, size)
 	print("\t  ||\n\t  ||\n\t  \\/")
-	A_star(start, goal, size, 5)
+	A_star(start, goal, size, heuristic_type, search_method)
 	#print_puzle(goal, size)
 	return False
 
 def array_to_str(arr):
 	return ''.join(map(str, arr))
 
-def get_childs(state, size, goal, heuristic_type):#array, string, parent, level, cost
+def get_childs(state, size, goal, heuristic_type, s_method):#array, string, parent, level, cost
 	lst = []
 	index_0 = state.array.index(0)
 	if (can_move_up(index_0,size)):
 		arr = state.array.copy()
 		swap_index(arr, index_0, index_0 - size)
-		cost = f(state.level, arr, goal, size, heuristic_type)
+		cost = f(state.level, arr, goal, size, s_method, heuristic_type)
 		new_state = C_State(arr, array_to_str(arr),state, state.level + 1, cost)
 		lst.append(new_state)
 	if (can_move_down(index_0,size)):
 		arr = state.array.copy()
 		swap_index(arr, index_0, index_0 + size)
-		cost = f(state.level, arr, goal, size, 0)
+		cost = f(state.level, arr, goal, size, s_method, heuristic_type)
 		new_state = C_State(arr, array_to_str(arr),state, state.level + 1, cost)
 		lst.append(new_state)
 	if (can_move_left(index_0,size)):
 		arr = state.array.copy()
 		swap_index(arr, index_0, index_0 - 1)
-		cost = f(state.level, arr, goal, size, 0)
+		cost = f(state.level, arr, goal, size, s_method, heuristic_type)
 		new_state = C_State(arr, array_to_str(arr),state, state.level + 1, cost)
 		lst.append(new_state)
 	if (can_move_right(index_0,size)):
 		arr = state.array.copy()
 		swap_index(arr, index_0, index_0 + 1)
-		cost = f(state.level, arr, goal, size, 0)
+		cost = f(state.level, arr, goal, size, s_method, heuristic_type)
 		new_state = C_State(arr, array_to_str(arr),state, state.level + 1, cost)
 		lst.append(new_state)
 	#print("get_child: found", len(lst), "childs")
@@ -176,7 +182,7 @@ def print_path(state, size):
 		print_puzle(x, size, False)
 		print("")
 
-def A_star(start, goal, size, heuristic_type):
+def A_star(start, goal, size, heuristic_type, search_method):
 	goal_str = array_to_str(goal)
 	opened = priority_queue()
 	closed = []
@@ -198,7 +204,7 @@ def A_star(start, goal, size, heuristic_type):
 			break
 		else:
 			closed.append(min_state)
-			childs = get_childs(min_state, size, goal, heuristic_type)
+			childs = get_childs(min_state, size, goal, heuristic_type, search_method)
 			for child in childs:
 				child_in_closed, closed_bool = is_value_in_list(child, closed, "closed")
 				child_in_opened, opened_bool = is_value_in_list(child, opened.heap, "heap")
