@@ -155,9 +155,6 @@ def solve_puzzle(start, goal, size, search_method, heuristic_type):
 	#print_puzle(goal, size)
 	return False
 
-def array_to_str(arr):
-	return ''.join(map(str, arr))
-
 def get_childs(state, size, goal, heuristic_type, s_method):
 	#Cstate: array, string, parent, level, cost
 	lst = []
@@ -249,3 +246,9 @@ def search(start, goal, size, heuristic_type, search_method):
 		print("---*-*-* i can t solve this puzzle, i m too weak *-*-*---")
 
 
+# understanf generat_goal
+# add hash for closed states (set ?)
+# fromat output
+# add tile-corner and last-tile heuristics
+# pThread ?
+# -> push

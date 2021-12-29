@@ -95,31 +95,31 @@ if __name__ == "__main__":
 
 	#----- Get search_method args ------#
 
-	# if (args.filename) :
-	# 	if (search_method == 1):
-	# 		text_animation("\n************************ A* (defalut) **************************")
-	# 	elif (search_method == 2):
-	# 		text_animation("\n*********************** Greedy search **************************")
-	# 	else :
-	# 		text_animation("\n************************ Uniform-cost **************************")
+	if (args.filename) :
+		if (search_method == 1):
+			text_animation("\n************************ A* (defalut) **************************")
+		elif (search_method == 2):
+			text_animation("\n*********************** Greedy search **************************")
+		else :
+			text_animation("\n************************ Uniform-cost **************************")
 
 	#----- Get heuristic_type args ------#
 
-	# if (args.filename) :
-	# 	if	 (heuristic_type == 1):
-	# 		text_animation("*************** Heuristic type : MY_HEURISTIC  *****************")
-	# 	elif (heuristic_type == 2):
-	# 		text_animation("****************** Heuristic type : HAMMING  *******************")
-	# 	elif (heuristic_type == 3):
-	# 		text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
-	# 	elif (heuristic_type == 4):
-	# 		text_animation("****************** Heuristic type : RANDOM1  *******************")
-	# 	elif (heuristic_type == 5):
-	# 		text_animation("***************** Heuristic type : RANDOM12  *******************")
-	# 	elif (heuristic_type == 6):
-	# 		text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
-	# 	elif (heuristic_type == 7):
-	# 		text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
+	if (args.filename) :
+		if	 (heuristic_type == 1):
+			text_animation("*************** Heuristic type : MY_HEURISTIC  *****************")
+		elif (heuristic_type == 2):
+			text_animation("****************** Heuristic type : HAMMING  *******************")
+		elif (heuristic_type == 3):
+			text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
+		elif (heuristic_type == 4):
+			text_animation("****************** Heuristic type : RANDOM1  *******************")
+		elif (heuristic_type == 5):
+			text_animation("***************** Heuristic type : RANDOM12  *******************")
+		elif (heuristic_type == 6):
+			text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
+		elif (heuristic_type == 7):
+			text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
 
 	#----- Open and read filename / Usage ------#
 	if args.filename:

@@ -30,6 +30,9 @@ def is_solvable(start_state, goal_state, size):
 		return True
 	return False
 
+def array_to_str(arr):
+	return ''.join(map(str, arr))
+
 def generate_final_state(s):
 	ts = s*s
 	puzzle = [-1 for i in range(ts)]
@@ -96,16 +99,4 @@ def can_move_up(i, s):
 def can_move_down(i, s):
 	if (i + s < s * s):
 		return True
-	return False
-
-def move_left():
-	return False
-
-def move_right():
-	return False
-
-def move_up():
-	return False
-
-def move_down():
 	return False
