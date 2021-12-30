@@ -56,7 +56,6 @@ if __name__ == "__main__":
 
 	#help usage and errors are automatically generated when there is invalid arguments
 	parser = argparse.ArgumentParser(
-		prog='ProgramName',
 		formatter_class=argparse.RawDescriptionHelpFormatter,
 		epilog=textwrap.dedent('''\
 			additional information:
