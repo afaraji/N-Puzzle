@@ -241,15 +241,6 @@ def search(start, goal, size, heuristic_type, search_method):
 		min_state = opened.pop()
 		if (min_state.string == goal_str):
 			success = True
-			print("===================================\n")
-			print_path(min_state, size)
-			print("===================================\n")
-			prRed("heap      : " , str(len(opened.heap)))
-			prRed("closed    : " , str(len(closed)))
-			prRed("iteration : " , str(iterations))
-			prRed("path len  : " , str(min_state.level))
-			print("===================================")
-			break
 		else:
 			closed.add(min_state)
 			children = get_children(min_state, size, goal, heuristic_type, search_method)
@@ -269,12 +260,20 @@ def search(start, goal, size, heuristic_type, search_method):
 						child_in_opened.cost = child.cost
 
 	if (success == True):
-		print("\n", '\33[34m' + "---*-*-*-*-*-*-*-* PUZZLE SOLVED *-*-*-*-*-*-*-*---" + '\033[0m', "\n")
+		print('\33[34m' + "---*-*-*-*-*-*-*-* PUZZLE SOLVED *-*-*-*-*-*-*-*---" + '\033[0m', "\n")
+		print("===================================\n")
+		print_path(min_state, size)
+		print("===================================\n")
+		prRed("opened              : " , str(len(opened.heap)))
+		prRed("closed              : " , str(len(closed)))
+		prRed("complexity in size  : " , str(len(closed) + len(opened.heap)))
+		prRed("complexity in time  : " , str(iterations))
+		prRed("path len            : " , str(min_state.level))
+		print("===================================")
 	else:
 		print("\n", '\33[31m' + "-*-*-*-* CAN'T SOLVE IT :( I M TOO WEAK ! *-*-*-*-" + '\033[0m', "\n")
 
 
-# check what should be printed
 # generate good solvable puzzles for us
 # pThread ?
 # -> push
