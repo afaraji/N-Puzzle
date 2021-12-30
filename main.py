@@ -48,7 +48,7 @@ def text_animation(string) :
 		sys.stdout.flush()
 		time.sleep(0.03)
 	time.sleep(1)
-	print('\033[0m')
+	print('\033[0m\n')
 
 ############## main #################
 if __name__ == "__main__":
@@ -108,19 +108,19 @@ if __name__ == "__main__":
 
 	if (args.filename) :
 		if	 (heuristic_type == 1):
-			text_animation("*************** Heuristic type : MY_HEURISTIC  *****************")
+			text_animation("*************** Heuristic type : MY_HEURISTIC ******************")
 		elif (heuristic_type == 2):
-			text_animation("****************** Heuristic type : HAMMING  *******************")
+			text_animation("****************** Heuristic type : HAMMING ********************")
 		elif (heuristic_type == 3):
-			text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
+			text_animation("*********** Heuristic type : MANHATTAN & HAMMING ***************")
 		elif (heuristic_type == 4):
-			text_animation("**************** Heuristic type : CORNER_TILE  *****************")
+			text_animation("**************** Heuristic type : CORNER_TILE ******************")
 		elif (heuristic_type == 5):
-			text_animation("*************** Heuristic type : NUM OF SWAPS  *****************")
+			text_animation("*************** Heuristic type : NUM OF SWAPS ******************")
 		elif (heuristic_type == 6):
-			text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
+			text_animation("************* Heuristic type : LINEAR_CONFLICTS ****************")
 		elif (heuristic_type == 7):
-			text_animation("************* Heuristic type : LC & CORNER_TILE  ***************")
+			text_animation("************* Heuristic type : LC & CORNER_TILE ****************")
 		else:
 			text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
 
@@ -139,10 +139,10 @@ if __name__ == "__main__":
 		elapsed = round(time.time() - tic, 5)
 		if(elapsed < 1):
 			elapsed *= 1000#convert to ms
-			print("puzzle solved in:", round(elapsed, 5), "ms")
+			print('\033[36m' + "puzzle solved in:", round(elapsed, 5), "ms" + '\033[0m\n')
 		else:
 			elapsed = elapsed % 60
 			minutes = int(elapsed / 60)
-			print("puzzle solved in:", str(minutes) + "min and" if minutes > 1 else "", round(elapsed, 5), "seconds")
+			print('\033[36m' + "===> puzzle solved in:", str(minutes) + "min and" if minutes > 1 else "", round(elapsed, 5), "seconds" + '\033[0m\n')
 	else: print("The puzzle is unsolvable.")
 

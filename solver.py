@@ -157,7 +157,7 @@ def f(level, arr, goal, size, s_method, heuristic_type = 0) -> int:
 
 ################   print   #####################
 def prRed(skk, num):
-	print (f"{skk :<11}\33[33m{num:>6}\033[0m")
+	print (f"\033[1m{skk :<11}\033[0m\33[33m{num:>6}\033[0m\n")
 
 def print_puzle(arr, size, Debug=True):
 	#print (size)
@@ -186,9 +186,9 @@ def print_path(state, size):
 ################   solve   #####################
 
 def solve_puzzle(start, goal, size, search_method, heuristic_type):
-	print("","solving puzzle")
+	print("solving puzzle\n")
 	print_puzle(start, size)
-	print("\t  ||\n\t  ||\n\t  \\/")
+	# print("\t  ||\n\t  ||\n\t  \\/")
 	search(start, goal, size, heuristic_type, search_method)
 
 def get_children(state, size, goal, heuristic_type, s_method):
@@ -261,15 +261,15 @@ def search(start, goal, size, heuristic_type, search_method):
 
 	if (success == True):
 		print('\33[34m' + "---*-*-*-*-*-*-*-* PUZZLE SOLVED *-*-*-*-*-*-*-*---" + '\033[0m', "\n")
-		print("===================================\n")
+		# print("===================================\n")
 		print_path(min_state, size)
-		print("===================================\n")
+		print("====================" + "\033[34m" + " Program Output " + '\033[0m' + "===================\n")
 		prRed("opened              : " , str(len(opened.heap)))
 		prRed("closed              : " , str(len(closed)))
 		prRed("complexity in size  : " , str(len(closed) + len(opened.heap)))
 		prRed("complexity in time  : " , str(iterations))
 		prRed("path len            : " , str(min_state.level))
-		print("===================================")
+		print("=======================================================\n")
 	else:
 		print("\n", '\33[31m' + "-*-*-*-* CAN'T SOLVE IT :( I M TOO WEAK ! *-*-*-*-" + '\033[0m', "\n")
 
