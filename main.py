@@ -57,7 +57,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument("-s", type=int, default=1, help="Search methode to solve the puzzle")
-	parser.add_argument("-f", type=int, default=7, help="Type of heuristic function to solve the puzzle")
+	parser.add_argument("-f", type=int, default=8, help="Type of heuristic function to solve the puzzle")
 	parser.add_argument("-l", action='store_true', help="Get list of search methodes and heuristic types to solve puzzle")
 	parser.add_argument('filename', nargs='?')
 
@@ -114,13 +114,13 @@ if __name__ == "__main__":
 		elif (heuristic_type == 3):
 			text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
 		elif (heuristic_type == 4):
-			text_animation("****************** Heuristic type : CORNER_TILE  *******************")
+			text_animation("**************** Heuristic type : CORNER_TILE  *****************")
 		elif (heuristic_type == 5):
-			text_animation("***************** Heuristic type : NUM OF SWAPS  *******************")
+			text_animation("*************** Heuristic type : NUM OF SWAPS  *****************")
 		elif (heuristic_type == 6):
 			text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
 		elif (heuristic_type == 7):
-			text_animation("******** Heuristic type : LC & CORNER_TILE  *********")
+			text_animation("************* Heuristic type : LC & CORNER_TILE  ***************")
 		else:
 			text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
 
