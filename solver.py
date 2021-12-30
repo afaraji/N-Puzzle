@@ -156,8 +156,8 @@ def f(level, arr, goal, size, s_method, heuristic_type = 0) -> int:
 	return g(level) + h(arr, goal, size, heuristic_type)
 
 ################   print   #####################
-def prRed(skk,endcahr='\n'):
-	print("\033[91m {}\033[00m" .format(skk), end=endcahr)
+def prRed(skk, num):
+	print (f"{skk :<11}\33[33m{num:>6}\033[0m")
 
 def print_puzle(arr, size, Debug=True):
 	#print (size)
@@ -238,11 +238,14 @@ def search(start, goal, size, heuristic_type, search_method):
 		min_state = opened.pop()
 		if (min_state.string == goal_str):
 			success = True
+			print("===================================\n")
 			print_path(min_state, size)
-			prRed("opened: " + str(len(opened.heap)))
-			prRed("closed: " + str(len(closed)))
-			prRed("iteration: " + str(iterations))
-			prRed("path len: " + str(min_state.level))
+			print("===================================\n")
+			prRed("heap: " , str(len(opened.heap)))
+			prRed("closed: " , str(len(closed)))
+			prRed("iteration: " , str(iterations))
+			prRed("path len: " , str(min_state.level))
+			print("===================================")
 			return
 		else:
 			closed.add(min_state)
@@ -263,9 +266,9 @@ def search(start, goal, size, heuristic_type, search_method):
 						child_in_opened.cost = child.cost
 
 	if (success == True):
-		print("---*-*-*-*-*-*-*-* puzzle solved *-*-*-*-*-*-*-*---")
+		print("\n", '\33[34m' + "---*-*-*-*-*-*-*-* PUZZLE SOLVED *-*-*-*-*-*-*-*---" + '\033[0m', "\n")
 	else:
-		print("---*-*-* i can t solve this puzzle, i m too weak *-*-*---")
+		print("\n", '\33[31m' + "-*-*-*-* CAN'T SOLVE IT :( I M TOO WEAK ! *-*-*-*-" + '\033[0m', "\n")
 
 
 # understand generat_goal
