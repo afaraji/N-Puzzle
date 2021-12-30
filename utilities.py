@@ -25,7 +25,6 @@ def is_solvable(start_state, goal_state, size):
 				exit(7)
 			swap_index(start_state, i, index_to_swap_with)
 			count += 1
-	print("num of swaps:", count)
 	if(count % 2 == parity % 2):
 		return True
 	return False

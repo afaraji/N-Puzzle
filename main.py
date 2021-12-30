@@ -68,7 +68,7 @@ if __name__ == "__main__":
 		print ("You must insert 1 or 2 or 3")
 		sys.exit(1)
 
-	if args.f < 1 or args.f > 7:
+	if args.f < 1 or args.f > 8:
 		print ("You must insert a number between 1 & 7")
 		sys.exit(1)
 
@@ -86,11 +86,12 @@ if __name__ == "__main__":
 		print("Please select a heuristic to solve the puzzle")
 		print("1 - my_heuristic")
 		print("2 - hamming")
-		print("3 - manhattan_hamming")
-		print("4 - random 1")
-		print("5 - random 2")
+		print("3 - manhattan-hamming")
+		print("4 - corner_tile")
+		print("5 - number_of_swaps")
 		print("6 - linear_conflicts")
-		print("7 - manhattan_distance (defalut)")
+		print("7 - LC-CORNER_TILE")
+		print("8 - manhattan_distance (defalut)")
 		heuristic_type = int(input("Enter number here :"))
 
 	#----- Get search_method args ------#
@@ -113,12 +114,14 @@ if __name__ == "__main__":
 		elif (heuristic_type == 3):
 			text_animation("*********** Heuristic type : MANHATTAN & HAMMING  **************")
 		elif (heuristic_type == 4):
-			text_animation("****************** Heuristic type : RANDOM1  *******************")
+			text_animation("****************** Heuristic type : CORNER_TILE  *******************")
 		elif (heuristic_type == 5):
-			text_animation("***************** Heuristic type : RANDOM12  *******************")
+			text_animation("***************** Heuristic type : NUM OF SWAPS  *******************")
 		elif (heuristic_type == 6):
 			text_animation("************* Heuristic type : LINEAR_CONFLICTS  ***************")
 		elif (heuristic_type == 7):
+			text_animation("******** Heuristic type : LC & CORNER_TILE  *********")
+		else:
 			text_animation("******** Heuristic type : MANHATTAN_DISTANCE 'default' *********")
 
 	#----- Open and read filename / Usage ------#

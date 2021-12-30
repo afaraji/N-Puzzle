@@ -1,4 +1,5 @@
 from heapq import heappush, heappop
+import _thread
 from utilities import *
 
 ################   classes   #####################
@@ -52,11 +53,13 @@ def h(arr, goal, size, heuristic_type = 0) -> int:
 	if heuristic_type == 3:
 		return manhattan_hamming(arr, goal, size)
 	if heuristic_type == 4:
-		return random_web(arr, goal, size)
+		return corner_tile(arr, goal, size) + manhattan_distance(arr, goal, size)
 	if heuristic_type == 5:
 		return number_of_swaps(arr, goal, size)
 	if heuristic_type == 6:
 		return linear_conflicts(arr, goal, size)
+	if heuristic_type == 7:
+		return lc_corner_tile(arr, goal, size)
 	return manhattan_distance(arr, goal, size)
 
 ################   heuristics   #####################
@@ -89,8 +92,24 @@ def number_of_swaps(array, goal, s) -> int:
 			count += 1
 	return count
 
-def random_web(array, goal, s) -> int:# impliment new method here
-	return hamming(array, goal, s) + my_heuristic(array, goal, s)
+def lc_corner_tile(array, goal, s) -> int:
+	return linear_conflicts(array, goal, s) + corner_tile(array, goal, s)
+
+def corner_tile(arr, goal, s) -> int:# impliment new method here
+	count = 0
+	if goal[0] != 0 and goal[0] != arr[0]:
+		if goal[1] == arr[1]:count += 2
+		if goal[s] == arr[s]:count += 2
+	if goal[s - 1] != 0 and goal[s - 1] != arr[s - 1]:
+		if goal[s - 2] == arr[s - 2]: count += 2
+		if goal[2 * s - 1] == arr[2 * s - 1]: count += 2
+	if goal[s * s - 1] != 0 and goal[s * s - 1] != arr[s * s - 1]:
+		if goal[s * s - 1 - s] == arr[s * s - 1 - s]: count += 2
+		if goal[s * s - 2] == arr[s * s - 2]: count += 2
+	if goal[s * s - s] != 0 and goal[s * s - s] != arr[s * s - s]:
+		if goal[s * s - s - s] == arr[s * s - s - s]: count += 2
+		if goal[s * s - s + 1] == arr[s * s - s + 1]: count += 2
+	return count
 
 #manhatn distance
 def manhattan_distance(array, goal, s) -> int:
@@ -134,15 +153,28 @@ def f(level, arr, goal, size, s_method, heuristic_type = 0) -> int:
 	return g(level) + h(arr, goal, size, heuristic_type)
 
 ################   print   #####################
-def prRed(skk):
-	print("\033[91m {}\033[00m" .format(skk), end="")
+def prRed(skk,endcahr='\n'):
+	print("\033[91m {}\033[00m" .format(skk), end=endcahr)
 
-def print_puzle(arr, size, Debug=False):
+def print_puzle(arr, size, Debug=True):
 	#print (size)
 	for y in range(size):
 		for x in range(size):
-			if(Debug):prRed ("%s" % str(arr[x + y * size]))
-			else:print("%s" % str(arr[x + y * size]), end="")
+			#if(Debug):prRed ("%s" % str(arr[x + y * size]))
+			#else:print("%s" % str(arr[x + y * size]), end="")
+			print(f'{str(arr[x + y * size]):4}', end="")
+		print("")
+
+def print_path(state, size):
+	path_list = []
+	node = state
+	while (node.level != 0):
+		path_list.append(node.array)
+		node = node.parent
+	path_list.append(node.array)
+	path_list.reverse()
+	for x in path_list:
+		print_puzle(x, size, False)
 		print("")
 
 ################   solve   #####################
@@ -152,8 +184,6 @@ def solve_puzzle(start, goal, size, search_method, heuristic_type):
 	print_puzle(start, size)
 	print("\t  ||\n\t  ||\n\t  \\/")
 	search(start, goal, size, heuristic_type, search_method)
-	#print_puzle(goal, size)
-	return False
 
 def get_childs(state, size, goal, heuristic_type, s_method):
 	#Cstate: array, string, parent, level, cost
@@ -191,18 +221,6 @@ def is_value_in_list(value, lst):
 			return x, True
 	return None, False
 
-def print_path(state, size):
-	path_list = []
-	node = state
-	while (node.level != 0):
-		path_list.append(node.array)
-		node = node.parent
-	path_list.append(node.array)
-	path_list.reverse()
-	for x in path_list:
-		print_puzle(x, size, False)
-		print("")
-
 def search(start, goal, size, heuristic_type, search_method):
 	goal_str = array_to_str(goal)
 	opened = priority_queue()
@@ -217,10 +235,10 @@ def search(start, goal, size, heuristic_type, search_method):
 		if (min_state.string == goal_str):
 			success = True
 			print_path(min_state, size)
-			print("heap:",len(opened.heap))
-			print("closed", len(closed))
-			print("iteration:", iterations)
-			print("path len", min_state.level)
+			prRed("heap: " + str(len(opened.heap)))
+			prRed("closed: " + str(len(closed)))
+			prRed("iteration: " + str(iterations))
+			prRed("path len: " + str(min_state.level))
 			break
 		else:
 			closed.append(min_state)
@@ -246,9 +264,9 @@ def search(start, goal, size, heuristic_type, search_method):
 		print("---*-*-* i can t solve this puzzle, i m too weak *-*-*---")
 
 
-# understanf generat_goal
+# understand generat_goal
 # add hash for closed states (set ?)
-# fromat output
-# add tile-corner and last-tile heuristics
+# check what should be printed
+# generate good solvable puzzles for us
 # pThread ?
 # -> push
