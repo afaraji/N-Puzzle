@@ -1,6 +1,7 @@
 import sys
 import argparse
 import time
+import textwrap
 from utilities import *
 from solver import *
 
@@ -54,13 +55,30 @@ def text_animation(string) :
 if __name__ == "__main__":
 
 	#help usage and errors are automatically generated when there is invalid arguments
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(
+		prog='ProgramName',
+		formatter_class=argparse.RawDescriptionHelpFormatter,
+		epilog=textwrap.dedent('''\
+			additional information:
+			-s :
+				1	[A* (defalut)]
+				2	[Greedy search]
+				3	[Uniform-cost]
+			-f :
+				1	[my_heuristic]
+				2	[hamming]
+				3	[manhattan-hamming]
+				4	[corner_tile]
+				5	[number_of_swaps]
+				6	[linear_conflicts]
+				7	[LC-CORNER_TILE]
+				8	[manhattan_distance (defalut)]
+			'''))
 
 	parser.add_argument("-s", type=int, default=1, help="Search methode to solve the puzzle")
 	parser.add_argument("-f", type=int, default=8, help="Type of heuristic function to solve the puzzle")
 	parser.add_argument("-l", action='store_true', help="Get list of search methodes and heuristic types to solve puzzle")
 	parser.add_argument('filename', nargs='?')
-
 	args = parser.parse_args()
 
 	#----- Usage for s and f arguments ------#
@@ -71,7 +89,6 @@ if __name__ == "__main__":
 	if args.f < 1 or args.f > 8:
 		print ("You must insert a number between 1 & 7")
 		sys.exit(1)
-
 
 	search_method = args.s
 	heuristic_type = args.f
