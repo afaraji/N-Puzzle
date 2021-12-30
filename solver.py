@@ -165,7 +165,10 @@ def print_puzle(arr, size, Debug=True):
 		for x in range(size):
 			#if(Debug):prRed ("%s" % str(arr[x + y * size]))
 			#else:print("%s" % str(arr[x + y * size]), end="")
-			print(f'{str(arr[x + y * size]):4}', end="")
+			if (arr[x + y * size] == 0) :
+				print( '\033[33m' + f'{str(arr[x + y * size]):4}', end="" + '\033[0m')
+			else :
+				print(f'{str(arr[x + y * size]):4}', end="")
 		print("")
 
 def print_path(state, size):
@@ -241,12 +244,12 @@ def search(start, goal, size, heuristic_type, search_method):
 			print("===================================\n")
 			print_path(min_state, size)
 			print("===================================\n")
-			prRed("heap: " , str(len(opened.heap)))
-			prRed("closed: " , str(len(closed)))
-			prRed("iteration: " , str(iterations))
-			prRed("path len: " , str(min_state.level))
+			prRed("heap      : " , str(len(opened.heap)))
+			prRed("closed    : " , str(len(closed)))
+			prRed("iteration : " , str(iterations))
+			prRed("path len  : " , str(min_state.level))
 			print("===================================")
-			return
+			break
 		else:
 			closed.add(min_state)
 			children = get_children(min_state, size, goal, heuristic_type, search_method)
