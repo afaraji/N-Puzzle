@@ -188,7 +188,7 @@ def solve_puzzle(start, goal, size, search_method, heuristic_type):
 	print("\t  ||\n\t  ||\n\t  \\/")
 	search(start, goal, size, heuristic_type, search_method)
 
-def get_childs(state, size, goal, heuristic_type, s_method):
+def get_children(state, size, goal, heuristic_type, s_method):
 	#Cstate: array, string, parent, level, cost
 	lst = []
 	index_0 = state.array.index(0)
@@ -249,8 +249,8 @@ def search(start, goal, size, heuristic_type, search_method):
 			return
 		else:
 			closed.add(min_state)
-			childs = get_childs(min_state, size, goal, heuristic_type, search_method)
-			for child in childs:
+			children = get_children(min_state, size, goal, heuristic_type, search_method)
+			for child in children:
 				child_in_closed, closed_bool = is_value_in_list(child, closed)
 				child_in_opened, opened_bool = is_value_in_list(child, opened.heap)
 				#if (child not in opened.heap) and (child_in_closed == None):
