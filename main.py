@@ -143,6 +143,6 @@ if __name__ == "__main__":
 		else:
 			elapsed = elapsed % 60
 			minutes = int(elapsed / 60)
-			print("puzzle solved in:", str(minutes) + "min and" if minutes > 1 else "", elapsed, "seconds")
+			print("puzzle solved in:", str(minutes) + "min and" if minutes > 1 else "", round(elapsed, 5), "seconds")
 	else: print("The puzzle is unsolvable.")
 

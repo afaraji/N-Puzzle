@@ -18,6 +18,9 @@ class C_State:
 	def __eq__(self, other):
 		return self.string == other.string
 
+	def __hash__(self) -> int:
+		return (int(self.string))
+
 class priority_queue:
 	def __init__(self):
 		self.heap = []
@@ -216,15 +219,16 @@ def get_childs(state, size, goal, heuristic_type, s_method):
 	return (lst)
 
 def is_value_in_list(value, lst):
-	for x in lst:
-		if(x.string == value.string):
-			return x, True
+	if value in lst:
+		for x in lst:
+			if(x.string == value.string):
+				return x, True
 	return None, False
 
 def search(start, goal, size, heuristic_type, search_method):
 	goal_str = array_to_str(goal)
 	opened = priority_queue()
-	closed = []
+	closed = set()
 	iterations = -1
 	root = C_State(start, array_to_str(start), None, 0, h(start, goal, size, heuristic_type))
 	opened.push(root)
@@ -235,13 +239,13 @@ def search(start, goal, size, heuristic_type, search_method):
 		if (min_state.string == goal_str):
 			success = True
 			print_path(min_state, size)
-			prRed("heap: " + str(len(opened.heap)))
+			prRed("opened: " + str(len(opened.heap)))
 			prRed("closed: " + str(len(closed)))
 			prRed("iteration: " + str(iterations))
 			prRed("path len: " + str(min_state.level))
-			break
+			return
 		else:
-			closed.append(min_state)
+			closed.add(min_state)
 			childs = get_childs(min_state, size, goal, heuristic_type, search_method)
 			for child in childs:
 				child_in_closed, closed_bool = is_value_in_list(child, closed)
