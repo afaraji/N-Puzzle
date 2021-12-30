@@ -1,5 +1,6 @@
 from heapq import heappush, heappop
-import _thread
+from sys import flags
+import threading
 from utilities import *
 
 ################   classes   #####################
@@ -177,7 +178,7 @@ def print_path(state, size):
 	while (node.level != 0):
 		path_list.append(node.array)
 		node = node.parent
-	path_list.append(node.array)
+	#path_list.append(node.array)
 	path_list.reverse()
 	for x in path_list:
 		print_puzle(x, size, False)
@@ -185,10 +186,26 @@ def print_path(state, size):
 
 ################   solve   #####################
 
-def solve_puzzle(start, goal, size, search_method, heuristic_type):
+def solve_puzzle(start, goal, size, search_method, heuristic_type, thrds=False):
 	print("solving puzzle\n")
 	print_puzle(start, size)
-	# print("\t  ||\n\t  ||\n\t  \\/")
+	# if(thrds):
+	# 	t1 = threading.Thread(target=search, args=(start,goal,size,1,8), name="default")
+	# 	t2 = threading.Thread(target=search, args=(start,goal,size,2,8), name="greedy-manhattn")
+	# 	t3 = threading.Thread(target=search, args=(start,goal,size,1,7), name="A*-LC-CORNER_TILE")
+	# 	t4 = threading.Thread(target=search, args=(start,goal,size,2,7), name="greedy-LC-CORNER_TILE")
+	# 	lst_of_thrds = [t1,t2,t3,t4]
+	# 	for t in lst_of_thrds:
+	# 		t.daemon = True
+	# 		t.start()
+	# 	done = False
+	# 	while not done:
+	# 		for t in lst_of_thrds:
+	# 			if t.is_alive() == False:
+	# 				done = True
+	# 				print("SOLVED USING: ", t.getName())
+	# 				break
+	# 	return
 	search(start, goal, size, heuristic_type, search_method)
 
 def get_children(state, size, goal, heuristic_type, s_method):
@@ -272,8 +289,3 @@ def search(start, goal, size, heuristic_type, search_method):
 		print("=======================================================\n")
 	else:
 		print("\n", '\33[31m' + "-*-*-*-* CAN'T SOLVE IT :( I M TOO WEAK ! *-*-*-*-" + '\033[0m', "\n")
-
-
-# generate good solvable puzzles for us
-# pThread ?
-# -> push

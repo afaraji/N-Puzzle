@@ -1,28 +1,28 @@
 #!/usr/local/bin/python3
 
-import sys
-import time
-from heapq import heappush, heappop
+# import sys
+# import time
+# from heapq import heappush, heappop
 
-class priority_queue:
-	def __init__(self):
-		self.heap = []
+# class priority_queue:
+# 	def __init__(self):
+# 		self.heap = []
 
-	# Inserts a new key 'k'
-	def push(self, k):
-		heappush(self.heap, k)
+# 	# Inserts a new key 'k'
+# 	def push(self, k):
+# 		heappush(self.heap, k)
 
-	# Method to remove minimum element
-	# from Priority Queue
-	def pop(self):
-		return heappop(self.heap)
+# 	# Method to remove minimum element
+# 	# from Priority Queue
+# 	def pop(self):
+# 		return heappop(self.heap)
 
-	# Method to know if the Queue is empty
-	def empty(self):
-		if not self.heap:
-			return True
-		else:
-			return False
+# 	# Method to know if the Queue is empty
+# 	def empty(self):
+# 		if not self.heap:
+# 			return True
+# 		else:
+# 			return False
 
 # def read_input_file():
 # 	if len(sys.argv) != 2:
@@ -78,38 +78,38 @@ class priority_queue:
 # print(lol)
 
 
-class test:
-	def __init__(self, level, cost):
-		self.cost = cost
-		self.level = level
-	def __lt__(self, nxt):
-		return self.cost < nxt.cost
+# class test:
+# 	def __init__(self, level, cost):
+# 		self.cost = cost
+# 		self.level = level
+# 	def __lt__(self, nxt):
+# 		return self.cost < nxt.cost
 
-	def __eq__(self, other):
-		return self.cost == other.cost
+# 	def __eq__(self, other):
+# 		return self.cost == other.cost
 
 
 
-lst = priority_queue()
-val1 = test(10, 5)
-val2 = test(12, 7)
-val3 = test(1, 3)
-val4 = test(20, 25)
-val5 = test(15, 2)
+# lst = priority_queue()
+# val1 = test(10, 5)
+# val2 = test(12, 7)
+# val3 = test(1, 3)
+# val4 = test(20, 25)
+# val5 = test(15, 2)
 
-lst.push(val1)
-lst.push(val2)
-lst.push(val3)
-lst.push(val4)
-lst.push(val5)
+# lst.push(val1)
+# lst.push(val2)
+# lst.push(val3)
+# lst.push(val4)
+# lst.push(val5)
 
-new_val = test(13, 7)
+# new_val = test(13, 7)
 
-# for x in lst:
-# 	print(x)
-lst.heap.remove(new_val)
-print(new_val in lst.heap)
-print(new_val in lst.heap)
+# # for x in lst:
+# # 	print(x)
+# lst.heap.remove(new_val)
+# print(new_val in lst.heap)
+# print(new_val in lst.heap)
 
 # import heapq
 
@@ -135,3 +135,41 @@ print(new_val in lst.heap)
 # print( Element('A', 1) in heap )     # True
 # print(Element('A', 100) in heap)    # True
 # print(Element('D', 1) in heap)
+
+import threading
+import time
+
+
+def print_cube(num):
+	for i in range(num):
+		for j in range(num):
+			time.sleep(1)
+			print("cube")
+
+def print_square(num):
+	for i in range(num):
+		time.sleep(4)
+		print("square")
+
+if __name__ == "__main__":
+	n = 3
+	# creating thread
+	t1 = threading.Thread(target=print_square, args=(n,), name="first")
+	t2 = threading.Thread(target=print_cube, args=(n,), name="second")
+	t1.daemon = True
+	t2.daemon = True
+	thrds = []
+	thrds.append(t1)
+	thrds.append(t2)
+	t1.start()
+	t2.start()
+	done = False
+	while not done:
+		for x in thrds:
+			if(x.is_alive() == False):
+				print("--->", x.getName() , "is Done. EXITING")
+				done = True
+				break
+
+	# both threads completely executed
+	print("Done!")
