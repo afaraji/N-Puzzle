@@ -274,8 +274,6 @@ def search(start, goal, size, heuristic_type, search_method):
 		print("\n", '\33[31m' + "-*-*-*-* CAN'T SOLVE IT :( I M TOO WEAK ! *-*-*-*-" + '\033[0m', "\n")
 
 
-# understand generat_goal
-# add hash for closed states (set ?)
 # check what should be printed
 # generate good solvable puzzles for us
 # pThread ?

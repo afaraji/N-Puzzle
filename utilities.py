@@ -33,30 +33,41 @@ def array_to_str(arr):
 	return ''.join(map(str, arr))
 
 def generate_final_state(s):
-	ts = s*s
-	puzzle = [-1 for i in range(ts)]
-	cur = 1
-	x = 0
-	ix = 1
-	y = 0
-	iy = 0
-	while True:
-		puzzle[x + y*s] = cur
-		if cur == 0:
-			break
-		cur += 1
-		if x + ix == s or x + ix < 0 or (ix != 0 and puzzle[x + ix + y*s] != -1):
-			iy = ix
-			ix = 0
-		elif y + iy == s or y + iy < 0 or (iy != 0 and puzzle[x + (y+iy)*s] != -1):
-			ix = -iy
-			iy = 0
-		x += ix
-		y += iy
-		if cur == s*s:
-			cur = 0
+	def incriment(i, j, _m):
+		return i + _m[0], j + _m[1]
 
-	return puzzle
+	def change_mode(_m):
+		# (row, col)
+		# > : v | > (0,1)
+		# v : < | v (1,0)
+		# < : ^ | < (0,-1)
+		# ^ : > | ^ (-1,0)
+
+		if _m == (0,1):return (1,0)
+		if _m == (1,0):return (0,-1)
+		if _m == (0,-1):return (-1,0)
+		return (0,1)
+
+	g = [i for i in range(1, s*s)]
+	g.append(0)
+	g_index = 0
+	m = [[-1 for i in range(s)] for j in range(s)]
+	i = j = 0
+	mode = (0,1)
+	while g_index < s * s:
+		if i < 0 or j < 0 or i == s or j == s or m[i][j] != -1:
+			i -= mode[0]
+			j -= mode[1]
+			mode = change_mode(mode)
+			i,j = incriment(i, j, mode)
+		else:
+			m[i][j] = g[g_index]
+			i,j = incriment(i, j, mode)
+			g_index += 1
+	arr = []
+	for x in m:
+		arr += x
+	return arr
 
 
 ################ movement #####################
