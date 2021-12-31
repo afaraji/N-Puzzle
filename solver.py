@@ -1,6 +1,4 @@
 from heapq import heappush, heappop
-from sys import flags
-import threading
 from utilities import *
 
 ################   classes   #####################
@@ -189,23 +187,6 @@ def print_path(state, size):
 def solve_puzzle(start, goal, size, search_method, heuristic_type, thrds=False):
 	print("solving puzzle\n")
 	print_puzle(start, size)
-	# if(thrds):
-	# 	t1 = threading.Thread(target=search, args=(start,goal,size,1,8), name="default")
-	# 	t2 = threading.Thread(target=search, args=(start,goal,size,2,8), name="greedy-manhattn")
-	# 	t3 = threading.Thread(target=search, args=(start,goal,size,1,7), name="A*-LC-CORNER_TILE")
-	# 	t4 = threading.Thread(target=search, args=(start,goal,size,2,7), name="greedy-LC-CORNER_TILE")
-	# 	lst_of_thrds = [t1,t2,t3,t4]
-	# 	for t in lst_of_thrds:
-	# 		t.daemon = True
-	# 		t.start()
-	# 	done = False
-	# 	while not done:
-	# 		for t in lst_of_thrds:
-	# 			if t.is_alive() == False:
-	# 				done = True
-	# 				print("SOLVED USING: ", t.getName())
-	# 				break
-	# 	return
 	search(start, goal, size, heuristic_type, search_method)
 
 def get_children(state, size, goal, heuristic_type, s_method):
